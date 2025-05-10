@@ -1,0 +1,117 @@
+--------------------------------------------------------------------------------------------------------
+1. Maven Error - project element is not defined.
+
+	Try to force download - maven-4.0.0.xsd.
+
+	Try to enable the Download Artifact Javadoc.
+
+--------------------------------------------------------------------------------------------------------
+2. How to take input from commandline?
+
+	try(BufferedReader br = new BufferedReader(new InputStreamReader(System.in))){
+
+		String input = br.readLine();
+	} 
+
+--------------------------------------------------------------------------------------------------------
+3. Read File?
+
+	File file = new File("File Path");
+
+	StringBuilder fileContent = new StringBuilder();
+
+	try(BufferedReader br = new BufferedReader(new FileReader(file))){
+
+		String currentLine;
+
+		while((currentLine = br.readLine())!=null){
+			fileContent.append(currentLine);
+		}
+	}
+
+--------------------------------------------------------------------------------------------------------
+4. Find all the classes in a package using Reflection?
+
+	ImmutableSet<ClassInfo> classInfos = ClassPath.from(ClassLoader.getSystemClassLoader()).getAllClasses();
+
+	Set<String> classInPackage = classInfos.stream()
+								.filter(classInfo ->  classInfo.getPackageName(packageName)
+								.startsWith())
+								.collect(Collectors.toSet());
+
+--------------------------------------------------------------------------------------------------------
+5. Find all the methods targeted with an annotation and value in a class?
+
+	Class<?> clazz = Class.forName("Qualified class name");
+
+	Method[] methods = clazz.getDeclaredMethods();
+
+	Set<Method> methodsWithAnnotation = Stream.of(methods)
+										.filter(method -> method.getAnnotation(AnnotationType.class)!=null )
+										.collect(Collectors.toSet());
+
+--------------------------------------------------------------------------------------------------------
+6. Instantiate a Class object using Reflection?
+
+	Class<?> clazz = Class.forName("Qualified class name");
+
+	Constructor<?> constructor = clazz.getConstructor(ParameterType.class);
+
+	Object object = constructor.newInstance(parameterValue);
+
+--------------------------------------------------------------------------------------------------------
+7. Invoke a method in a class using Reflection?
+
+	Object result = methodWithAnnotation.invoke(classObject, parameters);
+
+--------------------------------------------------------------------------------------------------------
+8. How to parse JSON String?
+
+	import com.fasterxml.jackson.databind.DeserializationFeature;
+	import com.fasterxml.jackson.databind.JsonMappingException;
+	import com.fasterxml.jackson.databind.ObjectMapper;
+
+	Class<T> classType;
+
+	ObjectMapper objectMapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+	T jsonObject = objectMapper.readValue(jsonString, classType);
+
+--------------------------------------------------------------------------------------------------------
+9. Create custom annotation for a class?
+
+	
+	@Retention(RetentionPolicy.RUNTIME)
+	@Target(ElementType.TYPE)
+	public @interface MyAnnotationForClass{}
+
+--------------------------------------------------------------------------------------------------------
+10. Create custom annotation for a method?
+
+	@Retention(RetentionPolicy.RUNTIME)
+	@Target(ElementType.METHOD)
+	public @interface MyAnnotationForMethod{
+		public String[] annotationParams();
+	}
+
+--------------------------------------------------------------------------------------------------------
+11. Create custom annotation for a Field?
+
+	@Retention(RetentionPolicy.RUNTIME)
+	@Target(ElementType.FIELD)
+	public @interface MyAnnotationForField{
+		public String[] annotationParams();
+	}
+
+--------------------------------------------------------------------------------------------------------
+12. Double value with 2 decimal precision?
+
+	import java.math.BigDecimal;
+	import java.math.RoundingMode;
+
+	BigDecimal bigDecimal = new BigDecimal("12.67890");
+
+	bigDecimal = bigDecimal.setScale(2, RoundingMode.CEILING);
+
+--------------------------------------------------------------------------------------------------------
+13. 	
