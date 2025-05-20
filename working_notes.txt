@@ -114,4 +114,56 @@
 	bigDecimal = bigDecimal.setScale(2, RoundingMode.CEILING);
 
 --------------------------------------------------------------------------------------------------------
-13. 	
+13. Eclipse CTRL + SPACE command for autocomplete not working on MAC?
+
+	System Preferences -> Keyboard -> Shortcuts -> Input Sources and disable both shortcuts in there. 
+
+--------------------------------------------------------------------------------------------------------
+14. Evaluate Java expression on the fly using JEXL (Java Extension Library)?
+
+	import org.apache.commons.jexl3.*;
+
+	Map<String, String> studentMap = new HashMap<String, String>();
+		
+	studentMap.put("name", "Prasant");
+	
+	JexlEngine jexlEngine = new JexlBuilder().create();
+	
+	JexlContext jexlContext = new QAFJexlContext(studentMap);
+	
+	String booleanExpression = "name==\"Garima\"";
+	
+	JexlExpression jexlExpression = jexlEngine.createExpression(booleanExpression);
+	
+	boolean result = (boolean) jexlExpression.evaluate(jexlContext); // false
+
+--------------------------------------------------------------------------------------------------------
+15. Publishing jar in Maven Central:
+
+	1. Create account in https://central.sonatype.com
+
+	2. Revoke existing key:
+		gpg --output revoke.asc --gen-revoke <key_id>
+
+	3. Create gpg public and private keys for signing the jar file:
+
+		a. gpg --full-generate-key, note the pass-phrase and the key id.
+		b. gpg --armor --export <key_id>, copy the public key.
+
+	4. Publish the public key in the following keyserver - https://keys.openpgp.org/, authenticate the via 	
+		email.
+
+	5. Export export GPG_TTY=$(tty)
+
+	6. Publish the jar in Maven central - mvn deploy and click publish button.
+
+--------------------------------------------------------------------------------------------------------
+16. How to solvejava.lang.ClassNotFoundException: 
+				org.asynchttpclient.DefaultAsyncHttpClientConfig$Builder?
+
+	Add the following system property - System.setProperty("webdriver.http.factory", "jdk-http-client");
+
+--------------------------------------------------------------------------------------------------------
+17. 
+
+
