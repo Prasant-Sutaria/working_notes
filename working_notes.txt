@@ -164,6 +164,15 @@
 	Add the following system property - System.setProperty("webdriver.http.factory", "jdk-http-client");
 
 --------------------------------------------------------------------------------------------------------
-17. 
+17. Inject/Scan Barcode in Android Device?
+
+	a. Install android app which can manage System Clipboard. Example - Clipper.apk https://github.com/majido/clipper
+
+	b. Execute ADB command to set value in the clipboard - 
+
+		driver.execute("mobile: shell", "\"am broadcast -a clipper.set -e text \"<TEXT_TO_SET>\"");
+
+--------------------------------------------------------------------------------------------------------
+18. 
 
 
