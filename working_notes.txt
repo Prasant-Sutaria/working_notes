@@ -173,6 +173,52 @@
 		driver.execute("mobile: shell", "\"am broadcast -a clipper.set -e text \"<TEXT_TO_SET>\"");
 
 --------------------------------------------------------------------------------------------------------
-18. 
+18. Check all the Java version installed in a machine:
 
+	a. MAC: /usr/libexec/java_home -V
+	b. Window: check the java folder inside Program folder.
+
+--------------------------------------------------------------------------------------------------------
+19. Switching between multiple versions of JDK in MAC using jenv:
+
+	a. We have JAVA_HOME env variable that helps Java programs to locate the installed JDK.
+
+	b. We also have /usr/libexec/java_home utility which helps on locating JDK installed. 
+		For example, to find the installation path of Java 11 execute the following command: /usr/libexec/java_home -v 11
+
+	c. We can combine both the env variable and java_home utility to switch between the installed JDK:
+
+		export JAVA_HOME=`/usr/libexec/java_home -v XX` 			XX stands for the Java version.
+
+	d. Install jenv using brew install jenv
+
+	e. Add the following to .zshrc:
+
+		export PATH="$HOME/.jenv/bin:$PATH"
+		eval "$(jenv init -)"
+		jenv enable-plugin export
+
+	f. Add java env using following:
+
+		jenv add `/usr/libexec/java_home -v 11`
+
+	g. List all the list on JDK:
+
+		jenv versions
+
+	h. Switch to a JDK version:
+
+		jenv global 21.0.2 				-----> Set Global version of Java
+		jenv global --unset				-----> Unset Global version of Java
+
+		jenv local 21.0.2 				-----> Set local version of Java
+		jenv local --unset				-----> Set Global version of Java
+
+--------------------------------------------------------------------------------------------------------
+20. Reload .zshrc:
+
+	source ~/.zshrc
+
+--------------------------------------------------------------------------------------------------------
+21. 
 
