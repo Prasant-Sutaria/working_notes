@@ -220,5 +220,101 @@
 	source ~/.zshrc
 
 --------------------------------------------------------------------------------------------------------
-21. 
+21. Generate random value between 1000 and 1999:
 
+	import java.util.Random;
+	Random random = new Random();
+
+	int randomNumber = random.nextInt(1999 - 1000 + 1) + 1000;
+
+--------------------------------------------------------------------------------------------------------
+22. Convert List<Integer> to int[]:
+
+	int[] example1 = list.stream().mapToInt(i->i).toArray();
+	// OR
+	int[] example2 = list.stream().mapToInt(Integer::intValue).toArray();
+
+--------------------------------------------------------------------------------------------------------
+23. Create a JSON string (convert Map to JSON):
+
+	HashMap<String, String> data = new HashMap<>();
+
+	Using Jackson:
+
+		ObjectMapper objectMapper = new ObjectMapper();
+    	String jsonString = objectMapper.writeValueAsString(data);
+
+    Using Gson:
+
+    	Gson gson = new Gson();
+	    Type typeObject = new TypeToken<HashMap>() {}.getType();
+	    String gsonData = gson.toJson(data, typeObject);
+
+	Using JSON:
+
+		JSONObject jsonObject = new JSONObject(data);
+    	String orgJsonData = jsonObject.toString();
+
+--------------------------------------------------------------------------------------------------------
+24. Upload a image file Multipart upload:
+
+	[Using apache http client 5]
+
+	// File to Upload
+	File fileToUpload = new File(localFilePath);
+
+	RequestConfig requestConfig = RequestConfig.custom().setConnectTimeout(Timeout.ofSeconds(10)).build();
+
+	// Closeable Http client
+	try (CloseableHttpClient httpClient = HttpClients.custom().setDefaultRequestConfig(requestConfig).build()) {
+
+		Map<String, Object> requestPartMap = new HashMap<String, Object>();
+		requestPartMap.put("paramter", "value");
+		
+		// Object Mapper converts HashMap into JSON String
+		ObjectMapper objectMapper = new ObjectMapper();
+		String requestPartStr = objectMapper.writeValueAsString(requestPartMap);
+
+		// Content Body for file
+		ContentBody inputStream = new FileBody(fileToUpload, ContentType.APPLICATION_OCTET_STREAM);
+
+		// Content Body for text
+		ContentBody requestPart = new StringBody(requestPartStr, ContentType.APPLICATION_JSON);
+
+		// Create a MultipartEntityBuilder
+		MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+
+		builder.addPart("file_form_name", inputStream);
+		builder.addPart("text_form_name", requestPart);
+
+		// Build the multipart entity
+		HttpEntity multipartEntity = builder.build();
+
+		// Create an HttpPost request
+		HttpPost httpPost = new HttpPost(uploadAPIURL);
+		httpPost.setEntity(multipartEntity);
+		httpPost.setHeader("header-name", "header-value");
+
+		// Execute the request
+		try (CloseableHttpResponse response = httpClient.execute(httpPost)) {
+			
+			// Get the response status code
+			int statusCode = response.getCode();
+
+			// Get the response body
+			HttpEntity responseEntity = response.getEntity();
+
+			String responseString = EntityUtils.toString(responseEntity);
+		}
+	}
+
+--------------------------------------------------------------------------------------------------------
+25. Set up proxy details used by JVM:
+
+	System.setProperty("http.proxyHost", proxyHost);
+    System.setProperty("http.proxyPort", proxyPort);
+    System.setProperty("https.proxyHost", proxyHost);
+    System.setProperty("https.proxyPort", proxyPort);
+
+--------------------------------------------------------------------------------------------------------
+    
